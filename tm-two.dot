@@ -1,0 +1,53 @@
+digraph {
+    rankdir="LB";
+    subgraph clusterTape {{
+        rank=same;
+        A [shape=square, label=">"];
+        B [shape=square, label="a"];
+        C [shape=square, label="a"];
+        D [shape=square, label="a"];
+        E [shape=square, label="_ "];
+        F [shape=square, label="_ "];
+        G [shape=square, label="_ "];
+    
+        A -> B -> C -> D -> E -> F -> G [style=invis];
+    }}
+
+    subgraph clusterControl {
+        subgraph clusterStates {
+            {rank=same ls, la, lb, le, ll, lr};
+            ls [shape=circle, label=">"];
+            la [shape=doublecircle, label="a"];
+            lb [shape=circle, label="b"];
+            le [shape=circle, label="_"];
+            ll [shape=circle, label="<-"];
+            lr [shape=circle, label="->"];
+            ls -> la -> lb -> le -> ll -> lr [style=invis];
+        }
+
+        subgraph clusterLetters {
+            {rank=same S1 S2 Y N};
+            S2 [shape=doublecircle];
+            S1 [shape=circle];
+            Y, N [shape=square];
+            S1 -> S2 -> Y -> N[style=invis];
+        }
+
+        R [shape=rectangle,label="Rules"];
+        Z [shape=point];
+        // transition func
+        X [label="(S2, a) ==> (S1, b)", shape=plaintext];
+        {rank=same Z X};
+        Z -> X [style=invis];
+        R -> X [style=invis];
+    }
+
+    // working head pos
+    Z -> B;
+
+    la -> R;
+    S2 -> R;
+    R -> lb;
+    R -> S1;
+    // function in and out
+}

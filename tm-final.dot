@@ -1,0 +1,58 @@
+digraph {
+    rankdir="LB";
+    subgraph clusterTape {{
+        rank=same;
+        A [shape=square, label=">"];
+        B [shape=square, label="b"];
+        C [shape=square, label="b"];
+        D [shape=square, label="b"];
+        E [shape=square, label="_ "];
+        F [shape=square, label="_ "];
+        G [shape=square, label="_ "];
+    
+        A -> B -> C -> D -> E -> F -> G [style=invis];
+    }}
+
+    subgraph clusterControl {
+        subgraph clusterStates {
+            {rank=same ls, la, lb, le, ll, lr};
+            ls [shape=circle, label=">"];
+            la [shape=circle, label="a"];
+            lb [shape=circle, label="b"];
+            le [shape=doublecircle, label="_"];
+            ll [shape=circle, label="<-"];
+            lr [shape=circle, label="->"];
+            ls -> la -> lb -> le -> ll -> lr [style=invis];
+        }
+
+        subgraph clusterLetters {
+            {rank=same S1 S2 Y N};
+            S1, S2 [shape=circle];
+            Y [shape=box3d];
+            N [shape=square];
+            S1 -> S2 -> Y -> N[style=invis];
+        }
+
+        R [shape=rectangle,label="Rules"];
+        Z [shape=point];
+        // transition func
+        X [label="(Y, _) ==> undefined", shape=plaintext];
+        H [label="HALT", shape=plaintext];
+
+        out [shape=plaintext, label="output: Y, \"bbb\""]
+        {rank=same Z X out};
+        Z -> X [style=invis];
+        R -> X [style=invis];
+    }
+
+    // working head pos
+    Z -> E;
+
+    le -> R;
+    Y -> R;
+    R -> H;
+
+    //R -> lr;
+    //R -> S2;
+    // function in and out
+}

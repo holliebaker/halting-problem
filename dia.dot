@@ -1,0 +1,23 @@
+digraph {
+    subgraph clasterM0 {M0; YES; NO; label="contra"; graph[style=dotted];};
+    rankdir="LR";
+    splines="ortho";
+    // M [shape=circle];
+    // w [shape=point];
+    M0 [shape=rectangle, label="halts"];
+    
+    M -> M0;
+    M -> M0;
+
+    M0 -> YES [label="if M halts on M"];
+    M0 -> NO [label="otherwise"];
+
+    YES;
+    NO;
+
+    L [label="loop()"];
+    HALT;
+
+    YES -> L;
+    NO -> HALT;
+}
